@@ -356,4 +356,6 @@ Thông tin này giúp bộ phận vận hành và kho chủ động lên kế ho
 - Nhóm sản phẩm nào có rủi ro cao nhất về tình trạng hết hàng trong thời gian tới?
 
 
+----
+
 

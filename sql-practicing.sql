@@ -32,7 +32,7 @@ VALUES
 ('Ken', 'Tanaka', 'ken.tanaka@gmail.com', 'Tokyo', 'Japan', '2025-03-02');
 
 
--- 3️. CÁC TRUY VẤN SELECT (PHỤC VỤ NGHIỆP VỤ)
+-- 3️. CÁC TRUY VẤN SELECT 
 
 -- 3.1 Lấy danh sách tất cả khách hàng
 SELECT * FROM Customers;

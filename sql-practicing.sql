@@ -17,10 +17,6 @@ CREATE TABLE Customers (
 );
 
 -- 2️. INSERT DỮ LIỆU MẪU
--- Dữ liệu có chủ đích:
--- - Có nhiều quốc gia
--- - Có nhiều thành phố
--- - Có nhiều năm đăng ký (2024, 2025)
 
 INSERT INTO Customers (first_name, last_name, email, city, country, join_date)
 VALUES
@@ -37,30 +33,25 @@ VALUES
 -- 3.1 Lấy danh sách tất cả khách hàng
 SELECT * FROM Customers;
 
-
 -- 3.2 Tìm khách hàng ở Việt Nam
--- Phục vụ phân tích thị trường nội địa
 SELECT *
 FROM Customers
 WHERE country = 'Vietnam';
 
 
 -- 3.3 Tìm khách hàng đăng ký trong năm 2025
--- Phục vụ theo dõi tăng trưởng khách hàng theo thời gian
 SELECT *
 FROM Customers
 WHERE YEAR(join_date) = 2025;
 
 
 -- 3.4 Đếm số lượng khách hàng theo quốc gia
--- So sánh quy mô thị trường giữa các quốc gia
 SELECT country, COUNT(*) AS total_customers
 FROM Customers
 GROUP BY country;
 
 
 -- 3.5 Đếm số lượng khách hàng theo thành phố tại Việt Nam
--- Phân tích khu vực có nhiều khách hàng nhất
 SELECT city, COUNT(*) AS total_customers
 FROM Customers
 WHERE country = 'Vietnam'
@@ -68,7 +59,6 @@ GROUP BY city;
 
 
 -- 3.6 Tìm khách hàng đăng ký sớm nhất
--- Xác định khách hàng đầu tiên của hệ thống
 SELECT *
 FROM Customers
 ORDER BY join_date ASC
@@ -76,7 +66,6 @@ LIMIT 1;
 
 
 -- 3.7 Tìm khách hàng đăng ký gần đây nhất
--- Theo dõi khách hàng mới
 SELECT *
 FROM Customers
 ORDER BY join_date DESC

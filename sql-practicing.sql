@@ -82,6 +82,77 @@ FROM Customers
 ORDER BY join_date DESC
 LIMIT 1;
 
+-- =========================================
+-- 4. PHÂN TÍCH & ĐÁNH GIÁ DỮ LIỆU
+-- (PHẦN HIẾU BỔ SUNG)
+-- =========================================
+
+-- 4.1 Hiện tại hệ thống có bao nhiêu khách hàng?
+-- [Mục tiêu]
+-- Xác định tổng số khách hàng hiện có trong hệ thống
+
+-- [Logic]
+-- - COUNT(*) đếm tổng số bản ghi
+-- - Mỗi bản ghi tương ứng với một khách hàng
+SELECT COUNT(*) AS total_customers
+FROM Customers;
+
+
+-- 4.2 Khách hàng đăng ký tập trung nhiều nhất ở quốc gia nào?
+-- [Mục tiêu]
+-- Xác định quốc gia có số lượng khách hàng lớn nhất
+
+-- [Logic]
+-- - GROUP BY country để gom theo quốc gia
+-- - COUNT(*) để đếm số khách hàng
+-- - ORDER BY giảm dần để tìm giá trị lớn nhất
+-- - LIMIT 1 lấy quốc gia đứng đầu
+SELECT country, COUNT(*) AS total_customers
+FROM Customers
+GROUP BY country
+ORDER BY total_customers DESC
+LIMIT 1;
+
+
+-- 4.3 Thành phố nào có nhiều khách hàng nhất?
+-- [Mục tiêu]
+-- Phân tích khu vực thành phố có mật độ khách hàng cao
+
+SELECT city, COUNT(*) AS total_customers
+FROM Customers
+GROUP BY city
+ORDER BY total_customers DESC
+LIMIT 1;
+
+
+-- 4.4 Lượng khách hàng mới tăng trưởng theo thời gian như thế nào?
+-- [Mục tiêu]
+-- Theo dõi xu hướng tăng trưởng khách hàng theo năm
+
+-- [Logic]
+-- - YEAR(join_date) trích xuất năm đăng ký
+-- - GROUP BY theo năm
+SELECT YEAR(join_date) AS year, COUNT(*) AS total_customers
+FROM Customers
+GROUP BY YEAR(join_date)
+ORDER BY year;
+
+
+-- 4.5 Thời điểm nào có lượng khách đăng ký cao hoặc thấp bất thường?
+-- [Mục tiêu]
+-- Phát hiện các giai đoạn đăng ký bất thường theo tháng
+
+-- [Logic]
+-- - Phân tích theo năm + tháng
+-- - So sánh số lượng khách hàng giữa các mốc thời gian
+SELECT
+    YEAR(join_date) AS year,
+    MONTH(join_date) AS month,
+    COUNT(*) AS total_customers
+FROM Customers
+GROUP BY YEAR(join_date), MONTH(join_date)
+ORDER BY year, month;
+
 
 
 /* =====================================================
@@ -119,6 +190,11 @@ CREATE TABLE Employees (
     hire_date DATE,
     salary DECIMAL(10,2)
 );
+
+-- =========================================
+-- 2.1 PHÂN TÍCH & ĐÁNH GIÁ DỮ LIỆU
+-- (PHẦN HIẾU BỔ SUNG)
+-- =========================================
 
 /* =====================================================
    3. TABLE: Products

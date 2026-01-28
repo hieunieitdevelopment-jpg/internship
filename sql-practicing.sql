@@ -84,45 +84,133 @@ LIMIT 1;
 
 
 
--- =====================================================
--- StoreManagement - SQL Practicing
--- Author: Hieu & Khai
--- Description: SQL exercises from Easy to Hard level
--- =====================================================
--- 1. List all products
--- Display product_name, category, unit_price
--- Sort by unit_price descending
-SELECT
-    product_name,
-    category,
-    unit_price
+/* =====================================================
+   SQL PRACTICING FULL FILE
+   Author: Khai
+   Description: Database practice with Customers, Employees,
+                Products, Orders, Order_Items + 10 exercises
+   ===================================================== */
+
+DROP DATABASE IF EXISTS shop_db;
+CREATE DATABASE shop_db;
+USE shop_db;
+
+/* =====================================================
+   1. TABLE: Customers
+   ===================================================== */
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    city VARCHAR(50),
+    country VARCHAR(50)
+);
+
+/* =====================================================
+   2. TABLE: Employees
+   ===================================================== */
+CREATE TABLE Employees (
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    department VARCHAR(50),
+    hire_date DATE,
+    salary DECIMAL(10,2)
+);
+
+/* =====================================================
+   3. TABLE: Products
+   ===================================================== */
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(100),
+    category VARCHAR(50),
+    unit_price DECIMAL(10,2),
+    stock_quantity INT
+);
+
+/* =====================================================
+   4. TABLE: Orders
+   ===================================================== */
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    employee_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10,2),
+    status VARCHAR(20),
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+    FOREIGN KEY (employee_id) REFERENCES Employees(employee_id)
+);
+
+/* =====================================================
+   5. TABLE: Order_Items
+   ===================================================== */
+CREATE TABLE Order_Items (
+    order_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    unit_price_at_purchase DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+/* =====================================================
+   INSERT SAMPLE DATA
+   ===================================================== */
+
+INSERT INTO Customers (first_name, last_name, email, phone, city, country) VALUES
+('John', 'Doe', 'john@example.com', '123456', 'New York', 'USA'),
+('Anna', 'Smith', 'anna@example.com', '654321', 'Toronto', 'Canada'),
+('Minh', 'Nguyen', 'minh@example.com', '098765', 'Da Nang', 'Vietnam');
+
+INSERT INTO Employees (first_name, last_name, department, hire_date, salary) VALUES
+('Alice', 'Brown', 'Sales', '2022-05-01', 1200),
+('Bob', 'Lee', 'Support', '2023-03-15', 900),
+('Chris', 'Tran', 'Warehouse', '2024-01-10', 800);
+
+INSERT INTO Products (product_name, category, unit_price, stock_quantity) VALUES
+('Laptop', 'Electronics', 1200, 15),
+('T-Shirt', 'Clothing', 25, 200),
+('Book SQL', 'Books', 60, 50),
+('Headphones', 'Electronics', 150, 30),
+('Jacket', 'Clothing', 80, 40);
+
+INSERT INTO Orders (customer_id, employee_id, order_date, total_amount, status) VALUES
+(1, 1, '2025-01-10', 1350, 'Shipped'),
+(2, 2, '2025-01-15', 160, 'Delivered'),
+(1, 1, '2025-01-20', 80, 'Pending');
+
+INSERT INTO Order_Items (order_id, product_id, quantity, unit_price_at_purchase) VALUES
+(1, 1, 1, 1200),
+(1, 4, 1, 150),
+(2, 5, 2, 80),
+(3, 2, 3, 25);
+
+/* =====================================================
+   10 SQL EXERCISES
+   ===================================================== */
+
+-- 1. List all products ordered by price descending
+SELECT product_name, category, unit_price
 FROM Products
 ORDER BY unit_price DESC;
 
-
--- 2. Find international customers
--- Customers from USA or Canada
--- Sort by last_name
-SELECT
-    first_name,
-    last_name,
-    city,
-    country
+-- 2. Customers from USA or Canada
+SELECT first_name, last_name, city, country
 FROM Customers
 WHERE country IN ('USA', 'Canada')
-ORDER BY last_name ASC;
+ORDER BY last_name;
 
-
--- 3. Recent hires
--- Employees hired after January 1, 2023
-SELECT
-    CONCAT(first_name, ' ', last_name) AS full_name,
-    department,
-    hire_date
+-- 3. Employees hired after 2023-01-01
+SELECT CONCAT(first_name, ' ', last_name) AS full_name, department, hire_date
 FROM Employees
 WHERE hire_date > '2023-01-01';
 
--- 4. Shipped orders with customer and employee names
+-- 4. Shipped orders with customer & employee
 SELECT
     CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
     o.order_date,
@@ -133,60 +221,52 @@ JOIN Customers c ON o.customer_id = c.customer_id
 JOIN Employees e ON o.employee_id = e.employee_id
 WHERE o.status = 'Shipped';
 
-
--- 5. High-value customers
--- Customers with total revenue greater than 500
+-- 5. High-value customers (>500)
 SELECT
     CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
-    SUM(o.total_amount) AS total_revenue
+    SUM(o.total_amount) AS total_spent
 FROM Orders o
 JOIN Customers c ON o.customer_id = c.customer_id
-GROUP BY c.customer_id, c.first_name, c.last_name
-HAVING SUM(o.total_amount) > 500
-ORDER BY total_revenue DESC;
-
+GROUP BY c.customer_id
+HAVING SUM(o.total_amount) > 500;
 
 -- 6. Top 5 best-selling products
 SELECT
     p.product_name,
-    p.category,
-    SUM(oi.quantity) AS total_quantity_sold
+    SUM(oi.quantity) AS total_sold
 FROM Order_Items oi
 JOIN Products p ON oi.product_id = p.product_id
-GROUP BY p.product_id, p.product_name, p.category
-ORDER BY total_quantity_sold DESC
+GROUP BY p.product_id
+ORDER BY total_sold DESC
 LIMIT 5;
 
-
--- 7. Category performance summary
+-- 7. Category summary with avg price > 50
 SELECT
     category,
-    AVG(unit_price) AS avg_unit_price,
+    AVG(unit_price) AS avg_price,
     SUM(stock_quantity) AS total_stock
 FROM Products
 GROUP BY category
-HAVING AVG(unit_price) > 50
-ORDER BY avg_unit_price DESC;
+HAVING AVG(unit_price) > 50;
 
--- 8. Customers above average order count
+-- 8. Customers with above-average orders
 SELECT
     CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
     COUNT(o.order_id) AS order_count
-FROM Orders o
-JOIN Customers c ON o.customer_id = c.customer_id
-GROUP BY c.customer_id, c.first_name, c.last_name
+FROM Customers c
+JOIN Orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id
 HAVING COUNT(o.order_id) >
 (
-    SELECT AVG(order_count)
+    SELECT AVG(order_cnt)
     FROM (
-        SELECT COUNT(order_id) AS order_count
+        SELECT COUNT(order_id) AS order_cnt
         FROM Orders
         GROUP BY customer_id
-    ) AS avg_orders
+    ) t
 );
 
-
--- 9. High-performing employees (by revenue)
+-- 9. High-performing employees by revenue
 SELECT
     CONCAT(e.first_name, ' ', e.last_name) AS employee_name,
     e.department,
@@ -198,26 +278,22 @@ WHERE o.total_amount >
     SELECT AVG(total_amount)
     FROM Orders
 )
-GROUP BY e.employee_id, e.first_name, e.last_name, e.department
+GROUP BY e.employee_id
 ORDER BY total_revenue DESC;
 
-
--- 10. Product sales and stock status (last 30 days)
+-- 10. Product sales & low stock (last 30 days)
 SELECT
     p.product_name,
     p.category,
     p.stock_quantity,
-    COALESCE(SUM(oi.quantity), 0) AS units_sold_last_30_days,
+    COALESCE(SUM(oi.quantity), 0) AS units_sold,
     CASE
         WHEN p.stock_quantity < 10 THEN 'Yes'
         ELSE 'No'
     END AS low_stock
 FROM Products p
 LEFT JOIN Order_Items oi ON p.product_id = oi.product_id
-LEFT JOIN Orders o ON oi.order_id = o.order_id
-    AND o.order_date >= '2025-12-28'
-GROUP BY
-    p.product_id,
-    p.product_name,
-    p.category,
-    p.stock_quantity;
+LEFT JOIN Orders o
+    ON oi.order_id = o.order_id
+    AND o.order_date >= '2024-12-28'
+GROUP BY p.product_id;

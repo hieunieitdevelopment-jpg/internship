@@ -161,3 +161,4 @@ Trong quá trình làm việc với Node.js, em sử dụng Git để quản lý
 **Tổng kết:**
 
 Thông qua quá trình học và thực hành Node.js, em đã nắm được các kiến thức backend cơ bản cần thiết cho vị trí thực tập sinh, đồng thời hiểu được cách tổ chức project và làm việc trong môi trường thực tế.
+ 

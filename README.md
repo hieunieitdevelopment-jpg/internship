@@ -1,6 +1,5 @@
 # Internship Training 
 
-
 ---
 
 ## Giai đoạn 1 – Làm quen môi trường Linux

@@ -131,3 +131,13 @@ Khi ghi thẳng secret trong code, chỉ cần push repo hoặc share file là t
 
 ## NODE_ENV là gì?
 - NODE_ENV là biến environment cho ứng dụng node.js đang run trên environment, cùng một code nhưng dev thì debug nhiều, prod thì tối ưu và bảo mật hơn.
+
+
+
+----
+## Khải update
+
+- Nên rút gọn một số đoạn diễn giải dài để nội dung dễ đọc hơn.  
+- Một vài chỗ dùng từ còn hơi lan man, có thể viết ngắn và tập trung vào ý chính.  
+- Phần Express.js và Middleware nên tách ý rõ ràng bằng bullet để dễ theo dõi.  
+- Cần thống nhất cách viết thuật ngữ (request, response, middleware…). 

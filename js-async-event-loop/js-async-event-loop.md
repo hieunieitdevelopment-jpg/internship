@@ -86,3 +86,16 @@
     - Await chỉ có thể được sử dụng bên trong các function async.
 # Async Await không thể thay thế hoàn toàn Prosime
 - sử dụng Async/Await chính là đang sử dụng Promise ngầm, và Async/Await không thể nào thay thế được Promise. Và chúng ta hoàn toàn có thể sử dung cả hai cùng lúc, 
+
+### Khải Update
+Mình đọc phần Asynchronous & Promise trong JavaScript của bạn thì thấy nội dung khá đầy đủ về khái niệm. Tuy nhiên, theo mình nghĩ bài vẫn thiếu một số phần nên đọc vẫn hơi khó hình dung nếu chưa học kỹ phần này trước đó.
+
+Thứ nhất, bài chủ yếu giải thích bằng chữ, chưa có nhiều ví dụ code minh hoạ. Với mấy phần như Event Loop, Task Queue hay Microtask Queue, nếu không có console.log để thấy thứ tự chạy thực tế thì khá là khó hiểu.
+
+Thứ hai, phần Promise có nói về then, catch, finally nhưng chưa giải thích rõ Promise được đưa vào Microtask Queue như thế nào và vì sao Promise lại được ưu tiên hơn setTimeout. Chỗ này theo mình là khá quan trọng.
+
+Ngoài ra, phần callback mới dừng ở khái niệm cơ bản, chưa nhắc tới callback hell, trong khi đây là vấn đề thường gặp và là lý do Promise và async/await được sử dụng nhiều.
+
+Phần async/await mình thấy bạn mới nói về cú pháp, chưa làm rõ việc await không block toàn bộ chương trình, mà chỉ dừng function async đó. Nếu không để ý chỗ này thì rất dễ hiểu nhầm.
+
+Cuối cùng, bài vẫn còn hơi chung chung, chưa liên hệ nhiều với Node.js backend như đọc file, call API hay xử lý request. Nếu gắn thêm ví dụ thực tế thì sẽ dễ hiểu hơn.

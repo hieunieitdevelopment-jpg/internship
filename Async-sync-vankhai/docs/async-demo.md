@@ -194,3 +194,50 @@ Qua việc ghi chú lại phần này, em rút ra:
 - Hiểu async giúp em đọc code Node.js dễ hơn và tránh lỗi block chương trình
 
 ---
+
+### HIEU Add the missing content.
+
+# Promise
+-  là "lời hứa" đại diện cho 1 task nào đó chưa hoàn thành ngay được và ở 1 thời điểm, promise sẽ output và giá tị resolve or reject
+- Promise nhận vào một hàm callback gồm 2 tham số:
+    - resolve: một function sẽ được call nếu đoạn code bất đồng bộ trong Promise run thành công.
+    - reject: sẽ ngược lại, lỗi xảy ra 
+- Promise cũng cung cấp cho chúng ta 2 phương thức để handle sau khi được thực hiện:
+    - then(): dùng đẻ handle sau khi promise thực hiện thành công
+    - catch(): dùng để handle sai khi promise gặp bất kỳ fail 
+    - finally(): dùng để handle sau khi promise được thực hiện thành công hoặc thất bại (resolve hoặc reject được gọi)
+
+# Async await
+- Async: Được đặt trước 1 function để khai báo bất đồng bộ cho cho function.
+    - Kết quả trả về của async function luôn luôn là 1 Promise
+    - Khi call tới hàm async nó sẽ handle mọi thứ và được trả về kết quả trong function của nó.
+    - Async cho phép sử dụng Await
+- Await: Được sử dụng khi muốn tạm dừng việc thực hiện các hàm async 
+    - Khi được đặt trước một Promise, nó sẽ đợi cho đến khi Promise kết thúc và trả về kết quả.
+    - Await chỉ làm việc với Promises, nó không hoạt động với callbacks.
+    - Await chỉ có thể được sử dụng bên trong các function async.
+
+# Async Await không thể thay thế hoàn toàn Prosime
+- sử dụng Async/Await chính là đang sử dụng Promise ngầm, và Async/Await không thể nào thay thế được Promise. Và chúng ta hoàn toàn có thể sử dung cả hai cùng lúc, 
+
+# Tại sao lại dùng callback?
+- Synchronous: callback nguyên tắc DRY(Don't reepeat yourself). callback đucợ thiết kế trong việc viết code theo nguyên tắc DRY tránh lặp lại code => callback pattern
+- Asynchronous: vì javascript là single-threaded : thực hiện chỉ việc trong cùng thời điểm. để tránh bị blocking khi gặp các task "nặng" và tiếp tục run (non-blocking) code khác trên callstack 
+
+# JavaScript đồng bộ – Cơ chế hoạt động của ngăn xếp thực thi hàm ( Call Stack )
+- Khi công cụ JavaScript call một functon, nó sẽ thêm function đó vào ngăn xếp và quá trình execute start.
+- Nếu function đang được execute gọi một hàm khác, công cụ sẽ thêm hàm thứ hai vào ngăn xếp và bắt đầu execute nó.
+- Sau khi hoàn thành việc execute hàm thứ hai, công cụ sẽ loại bỏ nó khỏi ngăn xếp.
+- Quá trình điều khiển quay trở lại để tiếp tục thực thi hàm đầu tiên từ điểm mà nó đã stop lần trước.
+- Sau khi quá trình execute hàm đầu tiên kết thúc, công cụ sẽ loại bỏ nó khỏi ngăn xếp.
+- Tiếp tục theo cách tương tự cho đến khi không còn gì để đưa vào ngăn xếp nữa.
+
+
+# Tại sao cần bất đồng bộ?
+- Tránh blocking UI khi thực hiện các task tốn time (API calls, đọc file, timer).
+- Tăng hiệu suất ứng dụng.
+- Cải thiện trải nghiệm người dùng.
+
+
+# Synchronous and Asynchronous 
+- liệt kê ra ưa và nhược điểm của Synchronous and Asynchronous

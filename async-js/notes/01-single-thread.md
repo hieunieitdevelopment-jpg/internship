@@ -1,0 +1,2 @@
+## JavaScript là single-threaded
+- JavaScript chỉ có một luồng execute duy nhất, nghĩa là tại một time chỉ có thể thực hiện một task. Nhưng nhờ có cơ chế asynchronous, nó vẫn handle được nhiều job mà không bị blocking.
